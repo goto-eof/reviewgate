@@ -7,12 +7,14 @@
 
     <changeSet id="2023-04-22-001" author="Andrei Dodu" dbms="${dbms}">
         <createTable tableName="rg_review">
-            <column autoIncrement="${autoIncrement}" name="id" type="BIGINT">
+            <column autoIncrement="${autoIncrement}" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_review"/>
             </column>
             <column name="title" type="VARCHAR(255)"/>
             <column name="description" type="text"/>
-            <column name="rating" type="INT"/>
+            <column name="rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
             <column name="insert_date" type="DATETIME" defaultValueComputed="${defaultTimestamp}"/>
             <column name="update_date" type="DATETIME" defaultValueComputed="${defaultTimestamp}"/>
             <column name="version" type="INT"/>
@@ -22,7 +24,7 @@
 
     <changeSet id="2023-04-22-002" author="Andrei Dodu" dbms="${dbms}">
         <createTable tableName="rg_review_picture">
-            <column autoIncrement="${autoIncrement}" name="id" type="BIGINT">
+            <column autoIncrement="${autoIncrement}" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_review_picture"/>
             </column>
             <column name="review_id" type="BIGINT">
