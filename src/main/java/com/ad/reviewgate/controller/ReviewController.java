@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/review")
-public class HelloWorldController {
+public class ReviewController {
 
     @GetMapping
     public ResponseEntity<String> hello() {

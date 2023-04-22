@@ -13,7 +13,7 @@ public class ReviewPicture {
     private Long id;
 
     @Lob
-    private Blob picture;
+    private byte[] picture;
 
     @ManyToOne
     @JoinColumn(name = "review_id", nullable = false)
@@ -35,11 +35,11 @@ public class ReviewPicture {
         this.id = id;
     }
 
-    public Blob getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(Blob picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 }

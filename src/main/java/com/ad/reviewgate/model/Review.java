@@ -11,6 +11,7 @@ public class Review extends ModelCommon {
     @Id
     @Column(name = "id")
     private Long id;
+
     @Column(name = "title")
     private String title;
 
@@ -53,5 +54,13 @@ public class Review extends ModelCommon {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public Set<ReviewPicture> getReviewPictureList() {
+        return reviewPictureList;
+    }
+
+    public void setReviewPictureList(Set<ReviewPicture> reviewPictureList) {
+        this.reviewPictureList = reviewPictureList;
     }
 }
