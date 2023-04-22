@@ -4,10 +4,11 @@ import com.ad.reviewgate.dto.ReviewDTO;
 import com.ad.reviewgate.model.Review;
 import com.ad.reviewgate.model.ReviewPicture;
 import jakarta.annotation.PostConstruct;
+import org.modelmapper.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 @Component
 public class ReviewMapper extends MapperCommon<Review, ReviewDTO> {
@@ -17,37 +18,29 @@ public class ReviewMapper extends MapperCommon<Review, ReviewDTO> {
 
     }
 
+    Converter<Set<ReviewPicture>, Set<String>> MODEL_TO_DTO = mappingContext -> Optional.ofNullable(mappingContext.getSource()).orElseGet(() -> new HashSet<>()).stream().map(reviewPicture -> new String(Base64.getEncoder().encode(reviewPicture.getPicture()))).collect(Collectors.toSet());
+    Converter<Set<String>, Set<ReviewPicture>> DTO_TO_MODEL = mappingContext -> Optional.ofNullable(mappingContext.getSource()).orElseGet(() -> new HashSet<>()).stream().map(reviewPictureBase64String -> {
+        ReviewPicture reviewPicture = new ReviewPicture();
+        reviewPicture.setPicture(Base64.getDecoder().decode(reviewPictureBase64String));
+        return reviewPicture;
+    }).collect(Collectors.toSet());
+
     @PostConstruct
     public void postConstruct() {
-        getModelMapper().getConfiguration().setAmbiguityIgnored(true);
-        // converts: MODEL -> DTO
+
         getModelMapper().typeMap(Review.class, ReviewDTO.class).addMappings(mapper -> {
-
-            mapper.<Set<ReviewPicture>>map(src -> src.getReviewPictureList(), (dto, reviewPictureList) -> {
-                Optional.ofNullable(reviewPictureList).orElseGet(() -> new HashSet<>()).stream().forEach(reviewPicture -> {
-                    dto.getReviewPictureList().add(new String(Base64.getEncoder().encode(reviewPicture.getPicture())));
-                });
-            });
-
+            mapper.using(MODEL_TO_DTO).<Set<String>>map(Review::getReviewPictureSet, ReviewDTO::setReviewPictureSet);
+        });
+        getModelMapper().typeMap(ReviewDTO.class, Review.class).addMappings(mapper -> {
+            mapper.using(DTO_TO_MODEL).<Set<ReviewPicture>>map(ReviewDTO::getReviewPictureSet, Review::setReviewPictureSet);
         });
 
-        // converts DTO -> MODEL
         getModelMapper().typeMap(ReviewDTO.class, Review.class).addMappings(mapper -> {
-
-            mapper.<List<String>>map(src -> src.getReviewPictureList(), (db, base64List) -> {
-                base64List.stream().forEach(base64Image -> {
-                    ReviewPicture reviewPicture = new ReviewPicture();
-                    reviewPicture.setPicture(Base64.getDecoder().decode(base64Image));
-                    db.getReviewPictureList().add(reviewPicture);
-                });
-            });
-
             mapper.<Review>map(src -> src, (db, review) -> {
-                db.getReviewPictureList().forEach(reviewPicture -> {
+                Optional.ofNullable(db.getReviewPictureSet()).orElseGet(() -> new HashSet<ReviewPicture>()).forEach(reviewPicture -> {
                     reviewPicture.setReview(review);
                 });
             });
-
         });
     }
 }

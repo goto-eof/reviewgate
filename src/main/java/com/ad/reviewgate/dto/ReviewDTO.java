@@ -13,5 +13,5 @@ public class ReviewDTO {
     private String title;
     private String description;
     private Integer rating;
-    private Set<String> reviewPictureList = new HashSet<>();
+    private Set<String> reviewPictureSet = new HashSet<>();
 }

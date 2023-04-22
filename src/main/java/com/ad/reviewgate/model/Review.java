@@ -22,7 +22,7 @@ public class Review extends ModelCommon {
     private Integer rating;
 
     @OneToMany(mappedBy="review")
-    private Set<ReviewPicture> reviewPictureList;
+    private Set<ReviewPicture> reviewPictureSet;
 
     public Long getId() {
         return id;
@@ -56,11 +56,11 @@ public class Review extends ModelCommon {
         this.rating = rating;
     }
 
-    public Set<ReviewPicture> getReviewPictureList() {
-        return reviewPictureList;
+    public Set<ReviewPicture> getReviewPictureSet() {
+        return reviewPictureSet;
     }
 
-    public void setReviewPictureList(Set<ReviewPicture> reviewPictureList) {
-        this.reviewPictureList = reviewPictureList;
+    public void setReviewPictureSet(Set<ReviewPicture> reviewPictureSet) {
+        this.reviewPictureSet = reviewPictureSet;
     }
 }
