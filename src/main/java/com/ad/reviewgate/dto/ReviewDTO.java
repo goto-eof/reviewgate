@@ -3,6 +3,7 @@ package com.ad.reviewgate.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -12,5 +13,5 @@ public class ReviewDTO {
     private String title;
     private String description;
     private Integer rating;
-    private Set<String> reviewPictureList;
+    private Set<String> reviewPictureList = new HashSet<>();
 }

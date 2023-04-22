@@ -2,13 +2,15 @@ package com.ad.reviewgate.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.lang.reflect.Type;
 
 public class MapperCommon<S, D> {
 
     @Autowired
-    private ModelMapper modelMapper;
+    @Qualifier("modelMapperBean")
+    private ModelMapper modelMapperBean;
     private Type sourceType;
     private Type destinationType;
 
@@ -18,15 +20,15 @@ public class MapperCommon<S, D> {
     }
 
     public D toDTO(S inputObject) {
-        return modelMapper.map(inputObject, destinationType);
+        return modelMapperBean.map(inputObject, destinationType);
     }
 
     public S toModel(D modelObject) {
-        return modelMapper.map(modelObject, sourceType);
+        return modelMapperBean.map(modelObject, sourceType);
     }
 
     protected ModelMapper getModelMapper() {
-        return modelMapper;
+        return modelMapperBean;
     }
 
 }
