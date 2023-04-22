@@ -26,4 +26,20 @@ public class ReviewPicture {
     public void setReview(Review review) {
         this.review = review;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Blob getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Blob picture) {
+        this.picture = picture;
+    }
 }
