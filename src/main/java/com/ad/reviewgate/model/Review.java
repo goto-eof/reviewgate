@@ -2,13 +2,15 @@ package com.ad.reviewgate.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "rg_review")
 public class Review extends ModelCommon {
 
     @Id
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "title")
     private String title;
 
@@ -18,12 +20,14 @@ public class Review extends ModelCommon {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
+    @OneToMany(mappedBy="review")
+    private Set<ReviewPicture> reviewPictureList;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
