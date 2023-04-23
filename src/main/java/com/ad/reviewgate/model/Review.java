@@ -1,14 +1,17 @@
 package com.ad.reviewgate.model;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "rg_review")
+@ToString
 public class Review extends ModelCommon {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -21,7 +24,7 @@ public class Review extends ModelCommon {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    @OneToMany(mappedBy="review")
+    @OneToMany(mappedBy="review", cascade = CascadeType.ALL)
     private Set<ReviewPicture> reviewPictureSet;
 
     public Long getId() {
