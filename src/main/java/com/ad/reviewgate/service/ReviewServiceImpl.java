@@ -16,10 +16,17 @@ public class ReviewServiceImpl implements ReviewService {
     final private ReviewMapper reviewMapper;
     final private ReviewRepository reviewRepository;
 
+    public ReviewDTO get(Long id) {
+        return this.reviewMapper.toDTO(this.reviewRepository.findById(id).get());
+    }
+
+    @Override
+    public void delete(Long id) {
+        this.reviewRepository.deleteById(id);
+    }
+
     public ReviewDTO save(ReviewDTO reviewDTO) {
-        final Review reviewModel = this.reviewMapper.toModel(reviewDTO);
-        System.out.println(reviewModel);
-        final Review reviewModelSaved = this.reviewRepository.save(reviewModel);
+        final Review reviewModelSaved = this.reviewRepository.save(this.reviewMapper.toModel(reviewDTO));
         return this.reviewMapper.toDTO(reviewModelSaved);
     }
 }

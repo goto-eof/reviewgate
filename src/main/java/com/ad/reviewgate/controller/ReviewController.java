@@ -13,6 +13,11 @@ public class ReviewController {
 
     final private ReviewService reviewService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ReviewDTO> get(@PathVariable Long id) {
+        return ResponseEntity.ok(this.reviewService.get(id));
+    }
+
     @PostMapping
     public ResponseEntity<ReviewDTO> save(@RequestBody ReviewDTO reviewDTO) {
         return ResponseEntity.ok(this.reviewService.save(reviewDTO));
@@ -21,5 +26,11 @@ public class ReviewController {
     @PutMapping
     public ResponseEntity<ReviewDTO> update(@RequestBody ReviewDTO reviewDTO) {
         return ResponseEntity.ok(this.reviewService.save(reviewDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        this.reviewService.delete(id);
+        return ResponseEntity.ok("OK");
     }
 }
