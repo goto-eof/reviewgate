@@ -3,8 +3,6 @@ package com.ad.reviewgate.model;
 import jakarta.persistence.*;
 import lombok.ToString;
 
-import java.sql.Blob;
-
 @Entity
 @Table(name = "rg_review_picture")
 @ToString(exclude = "review")

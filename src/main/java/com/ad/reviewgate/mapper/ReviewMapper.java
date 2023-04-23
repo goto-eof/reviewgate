@@ -5,29 +5,20 @@ import com.ad.reviewgate.model.Review;
 import com.ad.reviewgate.model.ReviewPicture;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.Converter;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class ReviewMapper extends MapperCommon<Review, ReviewDTO> {
-
-    public ReviewMapper() {
-        super(Review.class, ReviewDTO.class);
-    }
-
-    Type ReviewPictureSetType = new TypeToken<Set<Review>>() {
-    }.getType();
-    Converter<Set<ReviewPicture>, Set<String>> MODEL_TO_DTO = mappingContext ->
+    final static Converter<Set<ReviewPicture>, Set<String>> MODEL_TO_DTO = mappingContext ->
             Optional.ofNullable(mappingContext.getSource())
                     .orElseGet(() -> new HashSet<>())
                     .stream()
                     .map(reviewPicture -> new String(Base64.getEncoder().encode(reviewPicture.getPicture())))
                     .collect(Collectors.toSet());
-    Converter<Set<String>, Set<ReviewPicture>> DTO_TO_MODEL = mappingContext ->
+    final static Converter<Set<String>, Set<ReviewPicture>> DTO_TO_MODEL = mappingContext ->
             Optional.ofNullable(mappingContext.getSource())
                     .orElseGet(() -> new HashSet<>())
                     .stream().map(reviewPictureBase64String -> {
@@ -37,6 +28,9 @@ public class ReviewMapper extends MapperCommon<Review, ReviewDTO> {
                         return reviewPicture;
                     }).collect(Collectors.toSet());
 
+    public ReviewMapper() {
+        super(Review.class, ReviewDTO.class);
+    }
 
     @PostConstruct
     public void postConstruct() {

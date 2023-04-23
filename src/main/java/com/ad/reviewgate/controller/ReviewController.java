@@ -2,7 +2,6 @@ package com.ad.reviewgate.controller;
 
 import com.ad.reviewgate.dto.ReviewDTO;
 import com.ad.reviewgate.service.ReviewService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
