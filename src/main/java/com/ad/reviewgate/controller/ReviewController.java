@@ -23,9 +23,9 @@ public class ReviewController {
         return ResponseEntity.ok(this.reviewService.save(reviewDTO));
     }
 
-    @PutMapping
-    public ResponseEntity<ReviewDTO> update(@RequestBody ReviewDTO reviewDTO) {
-        return ResponseEntity.ok(this.reviewService.save(reviewDTO));
+    @PutMapping("/{id}")
+    public ResponseEntity<ReviewDTO> update(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
+        return ResponseEntity.ok(this.reviewService.update(id, reviewDTO));
     }
 
     @DeleteMapping("/{id}")

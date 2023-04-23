@@ -29,4 +29,11 @@ public class ReviewServiceImpl implements ReviewService {
         final Review reviewModelSaved = this.reviewRepository.save(this.reviewMapper.toModel(reviewDTO));
         return this.reviewMapper.toDTO(reviewModelSaved);
     }
+
+    @Override
+    public ReviewDTO update(Long id, ReviewDTO reviewDTO) {
+        // TODO check id matching
+        final Review reviewModelSaved = this.reviewRepository.save(this.reviewMapper.toModel(reviewDTO));
+        return this.reviewMapper.toDTO(reviewModelSaved);
+    }
 }
