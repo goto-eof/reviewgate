@@ -12,5 +12,5 @@ public class ReviewDTO {
     private String title;
     private String description;
     private Integer rating;
-    private Set<String> reviewPictureSet;
+    private Set<ReviewPictureDTO> reviewPictureSet;
 }

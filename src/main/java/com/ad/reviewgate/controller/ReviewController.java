@@ -17,4 +17,9 @@ public class ReviewController {
     public ResponseEntity<ReviewDTO> save(@RequestBody ReviewDTO reviewDTO) {
         return ResponseEntity.ok(this.reviewService.save(reviewDTO));
     }
+
+    @PutMapping
+    public ResponseEntity<ReviewDTO> update(@RequestBody ReviewDTO reviewDTO) {
+        return ResponseEntity.ok(this.reviewService.save(reviewDTO));
+    }
 }
