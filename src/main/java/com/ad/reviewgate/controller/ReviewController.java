@@ -1,6 +1,7 @@
 package com.ad.reviewgate.controller;
 
 import com.ad.reviewgate.dto.ReviewDTO;
+import com.ad.reviewgate.exception.ApplicationException;
 import com.ad.reviewgate.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReviewDTO> update(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<ReviewDTO> update(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) throws ApplicationException {
         return ResponseEntity.ok(this.reviewService.update(id, reviewDTO));
     }
 
