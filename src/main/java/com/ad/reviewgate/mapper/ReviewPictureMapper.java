@@ -16,8 +16,6 @@ public class ReviewPictureMapper extends MapperCommon<ReviewPicture, ReviewPictu
 
     public ReviewPictureMapper() {
         super(ReviewPicture.class, ReviewPictureDTO.class);
-
-
     }
 
     final static Converter<String, Byte[]> DTO_TO_MODEL = mappingContext ->

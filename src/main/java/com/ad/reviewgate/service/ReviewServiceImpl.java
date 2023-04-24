@@ -39,6 +39,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     public ReviewDTO save(ReviewDTO reviewDTO) {
         final Review reviewModelSaved = this.reviewRepository.save(this.reviewMapper.toModel(reviewDTO));
+        reviewDTO.getReviewPictureSet().stream().forEach(reviewPictureDTO ->
+        {
+            ReviewPicture model = this.reviewPictureMapper.toModel(reviewPictureDTO);
+            model.setReview(reviewModelSaved);
+            this.reviewPictureRepository.save(model);
+        });
         return this.reviewMapper.toDTO(reviewModelSaved);
     }
 
@@ -58,19 +64,13 @@ public class ReviewServiceImpl implements ReviewService {
         System.out.println(reviewDTO);
         Set<ReviewPicture> reviewPictureSet = reviewDTO.getReviewPictureSet().stream().map(reviewPictureDTO -> {
             ReviewPicture reviewPicture = reviewPictureRepository.findById(reviewPictureDTO.getId()).get();
-            System.out.println(reviewPictureDTO);
-            System.out.println(reviewPicture);
             this.reviewPictureMapper.getModelMapper().map(reviewPictureDTO, reviewPicture);
-            System.out.println(reviewPicture);
             return reviewPicture;
         }).collect(Collectors.toSet());
 
         this.reviewPictureRepository.saveAll(reviewPictureSet);
         Review model = this.reviewRepository.findById(id).get();
-        System.out.println(reviewDTO);
-        System.out.println(model);
         this.reviewMapper.getModelMapper().map(reviewDTO, model, "LAZY");
-        System.out.println(model);
         final Review reviewModelSaved = this.reviewRepository.save(model);
         return this.reviewMapper.toDTO(reviewModelSaved);
     }
