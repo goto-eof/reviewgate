@@ -11,11 +11,11 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapperBean() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true)
-                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
+        modelMapper.getConfiguration()
+                .setAmbiguityIgnored(true)
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;
     }
 }

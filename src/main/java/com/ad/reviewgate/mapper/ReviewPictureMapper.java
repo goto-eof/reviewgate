@@ -14,10 +14,6 @@ import java.util.Optional;
 @Component
 public class ReviewPictureMapper extends MapperCommon<ReviewPicture, ReviewPictureDTO> {
 
-    public ReviewPictureMapper() {
-        super(ReviewPicture.class, ReviewPictureDTO.class);
-    }
-
     final static Converter<String, Byte[]> DTO_TO_MODEL = mappingContext ->
             ArrayUtils.toObject(Optional.ofNullable(mappingContext.getSource())
                     .map(stringImage -> Base64.getDecoder().decode(stringImage))
@@ -28,6 +24,9 @@ public class ReviewPictureMapper extends MapperCommon<ReviewPicture, ReviewPictu
                     .map(byteArrayImage -> Base64.getEncoder().encode(ArrayUtils.toPrimitive(byteArrayImage)))
                     .get());
 
+    public ReviewPictureMapper() {
+        super(ReviewPicture.class, ReviewPictureDTO.class);
+    }
 
     @PostConstruct
     private void postConstruct() {

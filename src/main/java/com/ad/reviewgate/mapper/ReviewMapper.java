@@ -17,7 +17,5 @@ public class ReviewMapper extends MapperCommon<Review, ReviewDTO> {
     public void postConstruct() {
         getModelMapper().typeMap(ReviewDTO.class, Review.class, "LAZY")
                 .addMappings(mapper -> mapper.skip(Review::setReviewPictureSet));
-
-
     }
 }
