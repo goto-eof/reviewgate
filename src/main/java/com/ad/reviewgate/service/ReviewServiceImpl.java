@@ -4,7 +4,9 @@ import com.ad.reviewgate.dto.ReviewDTO;
 import com.ad.reviewgate.dto.ReviewPictureDTO;
 import com.ad.reviewgate.exception.ApplicationException;
 import com.ad.reviewgate.mapper.ReviewMapper;
+import com.ad.reviewgate.mapper.ReviewPictureMapper;
 import com.ad.reviewgate.model.Review;
+import com.ad.reviewgate.model.ReviewPicture;
 import com.ad.reviewgate.repository.ReviewPictureRepository;
 import com.ad.reviewgate.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
@@ -13,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
 
 @Service
 @Transactional
@@ -22,6 +24,7 @@ import static java.util.Optional.ofNullable;
 public class ReviewServiceImpl implements ReviewService {
 
     final private ReviewMapper reviewMapper;
+    final private ReviewPictureMapper reviewPictureMapper;
     final private ReviewRepository reviewRepository;
     final private ReviewPictureRepository reviewPictureRepository;
 
@@ -52,7 +55,22 @@ public class ReviewServiceImpl implements ReviewService {
                 throw new ApplicationException("Invalid ids");
             }
         }
-        Review model = this.reviewMapper.toModel(reviewDTO);
+        System.out.println(reviewDTO);
+        Set<ReviewPicture> reviewPictureSet = reviewDTO.getReviewPictureSet().stream().map(reviewPictureDTO -> {
+            ReviewPicture reviewPicture = reviewPictureRepository.findById(reviewPictureDTO.getId()).get();
+            System.out.println(reviewPictureDTO);
+            System.out.println(reviewPicture);
+            this.reviewPictureMapper.getModelMapper().map(reviewPictureDTO, reviewPicture);
+            System.out.println(reviewPicture);
+            return reviewPicture;
+        }).collect(Collectors.toSet());
+
+        this.reviewPictureRepository.saveAll(reviewPictureSet);
+        Review model = this.reviewRepository.findById(id).get();
+        System.out.println(reviewDTO);
+        System.out.println(model);
+        this.reviewMapper.getModelMapper().map(reviewDTO, model, "LAZY");
+        System.out.println(model);
         final Review reviewModelSaved = this.reviewRepository.save(model);
         return this.reviewMapper.toDTO(reviewModelSaved);
     }

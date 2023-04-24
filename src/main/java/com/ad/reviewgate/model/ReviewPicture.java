@@ -2,11 +2,13 @@ package com.ad.reviewgate.model;
 
 import jakarta.persistence.*;
 import lombok.ToString;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 @Entity
 @Table(name = "rg_review_picture")
-@ToString(exclude = "review")
-public class ReviewPicture {
+public class ReviewPicture extends ModelCommon{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +16,9 @@ public class ReviewPicture {
     private Long id;
 
     @Lob
-    private byte[] picture;
+    private Byte[] picture;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
 
@@ -36,11 +38,20 @@ public class ReviewPicture {
         this.id = id;
     }
 
-    public byte[] getPicture() {
+    public Byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPicture(Byte[] picture) {
         this.picture = picture;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewPicture{" +
+                "id=" + id +
+                ", picture=" + new String(ArrayUtils.toPrimitive(picture)) +
+                ", review=" + review.getId() +
+                '}';
     }
 }

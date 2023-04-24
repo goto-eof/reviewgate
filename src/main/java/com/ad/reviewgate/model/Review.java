@@ -24,7 +24,7 @@ public class Review extends ModelCommon {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    @OneToMany(mappedBy="review", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="review", cascade = CascadeType.PERSIST)
     private Set<ReviewPicture> reviewPictureSet;
 
     public Long getId() {

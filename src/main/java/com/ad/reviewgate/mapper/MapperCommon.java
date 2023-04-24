@@ -27,7 +27,8 @@ public class MapperCommon<S, D> {
         return modelMapperBean.map(modelObject, sourceType);
     }
 
-    protected ModelMapper getModelMapper() {
+
+    public ModelMapper getModelMapper() {
         return modelMapperBean;
     }
 

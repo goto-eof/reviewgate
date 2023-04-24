@@ -3,6 +3,7 @@ package com.ad.reviewgate.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -24,6 +25,9 @@ public class ModelCommon {
         @JsonIgnore
         @Column(name = "active")
         protected Boolean active = Boolean.TRUE;
+
+        @Version
+        private int version;
 
         public LocalDateTime getCreatedDate() {
                 return createdDate;

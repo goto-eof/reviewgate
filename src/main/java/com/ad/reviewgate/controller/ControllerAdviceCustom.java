@@ -1,4 +1,4 @@
-package com.ad.reviewgate.config;
+package com.ad.reviewgate.controller;
 
 import com.ad.reviewgate.exception.ApplicationException;
 import org.springframework.dao.DataIntegrityViolationException;
