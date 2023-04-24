@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,13 +40,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     public ReviewDTO save(ReviewDTO reviewDTO) {
         final Review reviewModelSaved = this.reviewRepository.save(this.reviewMapper.toModel(reviewDTO));
-        reviewDTO.getReviewPictureSet().stream().forEach(reviewPictureDTO ->
-        {
+        Set<ReviewPictureDTO> reviewPictureSet = new HashSet<>();
+        reviewDTO.getReviewPictureSet().stream().forEach(reviewPictureDTO -> {
             ReviewPicture model = this.reviewPictureMapper.toModel(reviewPictureDTO);
             model.setReview(reviewModelSaved);
-            this.reviewPictureRepository.save(model);
+            reviewPictureSet.add(this.reviewPictureMapper.toDTO(this.reviewPictureRepository.save(model)));
         });
-        return this.reviewMapper.toDTO(reviewModelSaved);
+        ReviewDTO reviewDTOSaved = this.reviewMapper.toDTO(reviewModelSaved);
+        reviewDTOSaved.setReviewPictureSet(reviewPictureSet);
+        return reviewDTOSaved;
     }
 
     @Override
